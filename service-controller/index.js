@@ -2,6 +2,8 @@ const db = require('../models/index.js');
 
 
 const create = (req, res) => {
+    console.log("create2");
+
     const username = req.body.username;
     const age = req.body.age;
     const email = req.body.email;
@@ -12,7 +14,7 @@ const create = (req, res) => {
         email: email
     });
     
-    db.User.save()
+    user.save()
         .then(() => {
         console.log(user);
         })
@@ -26,20 +28,31 @@ const create = (req, res) => {
 }
 
 const read = (req, res) => {
+    console.log("read2");
+
     const username = req.params.username;
 
     db.User
-        .find({username: username})
-        .then((user) => res.send(user))
+        .findOne({_id: username})
+        .then((user) => {
+            if (!user) {
+                res.status(404).send('Not Found');
+            } else {
+                res.send(user);
+            }
+            
+        })
         .catch((err) => console.error(err));
     
 }
 
 const update = (req, res) => {
+    console.log("update");
     res.send("Update");
 }
 
 const delete1 = (req, res) => {
+    console.log("delete");
     res.send("Delete");
 }
 
